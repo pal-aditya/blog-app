@@ -48,7 +48,7 @@ const Login = () => {
           onChange={handleChange}
         />
         <button onClick={handleSubmit}>Login</button>
-        {err && <p>{err}</p>}
+        {err && <p>{err?.message || JSON.stringify(err)}</p>}
         <span>
           Don't you have an account? <Link to="/register">Register</Link>
         </span>

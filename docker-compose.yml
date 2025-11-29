@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./api
+    container_name: blog-api-backend
+    ports:
+      - "8800:8800"
+    env_file:
+      - ./api/.env
+    networks:
+      - appnet
+
+  frontend:
+    build: ./client
+    container_name: blog-api-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - appnet
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"           # Access phpMyAdmin at http://localhost:8080
+    environment:
+      PMA_ARBITRARY: 1      # Allows connecting to external databases (RDS)
+    networks:
+      - appnet
+
+networks:
+  appnet:
+    driver: bridge
